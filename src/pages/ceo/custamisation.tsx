@@ -65,7 +65,7 @@ const CustomizationPage: React.FC = () => {
     try {
       if (type === "role") {
         await axios.post(
-          Api_EndPoints.ROLES_API,
+          Api_EndPoints.ROLES_CREATE_API,
           { name: roleName, description: roleDesc },
           getAuthHeaders()
         );
@@ -76,7 +76,7 @@ const CustomizationPage: React.FC = () => {
 
       if (type === "designation") {
         await axios.post(
-          Api_EndPoints.DESIGNATION_API,
+          Api_EndPoints.DEPARTMENTS_CREATE_API,
           { title: designationTitle, description: designationDesc },
           getAuthHeaders()
         );
@@ -87,7 +87,7 @@ const CustomizationPage: React.FC = () => {
 
       if (type === "department") {
         await axios.post(
-          Api_EndPoints.DEPARTMENTS_API,
+          Api_EndPoints.DEPARTMENTS_CREATE_API,
           { name: departmentName, description: departmentDesc },
           getAuthHeaders()
         );
@@ -98,7 +98,7 @@ const CustomizationPage: React.FC = () => {
 
       if (type === "branch") {
         await axios.post(
-          Api_EndPoints.BRANCHES_API,
+          Api_EndPoints.BRANCHES_CREATE_API,
           branchData,
           getAuthHeaders()
         );

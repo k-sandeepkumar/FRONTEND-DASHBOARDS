@@ -141,7 +141,7 @@ function AddEmployee() {
         branchId: Number(form.branchId),
       };
 
-      await api.post("/employees/createEmp", payload, getAuthHeaders());
+      await axios.post(Api_EndPoints.CREATEEMPLOYEE_API, payload, getAuthHeaders());
       resetForm();
       fetchEmployees();
     } catch (err) {
