@@ -9,7 +9,6 @@ WORKDIR /app
 
 # Copy package files
 COPY package*.json ./
-COPY bun.lockb ./
 
 # Install dependencies using npm (Railway works better with npm)
 RUN npm ci --silent
