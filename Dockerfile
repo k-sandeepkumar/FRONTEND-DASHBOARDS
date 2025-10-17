@@ -31,10 +31,6 @@ FROM nginx:alpine AS production
 # Install dumb-init for proper signal handling
 RUN apk add --no-cache dumb-init
 
-# Create nginx user and group
-RUN addgroup -g 1001 -S nginx && \
-    adduser -S nginx -u 1001 -G nginx
-
 # Copy custom nginx configuration
 COPY <<EOF /etc/nginx/conf.d/default.conf
 server {
@@ -91,18 +87,19 @@ server {
 EOF
 
 # Copy built application from builder stage
-COPY --from=builder --chown=nginx:nginx /app/dist /usr/share/nginx/html
+COPY --from=builder /app/dist /usr/share/nginx/html
 
 # Verify the copy worked
 RUN echo "Verifying copied files:" && \
     ls -la /usr/share/nginx/html/ && \
     test -f /usr/share/nginx/html/index.html && echo "✅ index.html found" || echo "❌ index.html missing"
 
-# Create nginx cache directory
+# Create nginx cache directory and set proper permissions
 RUN mkdir -p /var/cache/nginx && \
     chown -R nginx:nginx /var/cache/nginx && \
     chown -R nginx:nginx /var/log/nginx && \
-    chown -R nginx:nginx /etc/nginx/conf.d
+    chown -R nginx:nginx /etc/nginx/conf.d && \
+    chown -R nginx:nginx /usr/share/nginx/html
 
 # Set environment variables
 ENV NODE_ENV=production
