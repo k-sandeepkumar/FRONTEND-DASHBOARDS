@@ -55,7 +55,7 @@ RUN echo 'const express = require("express");' > server.js && \
     echo '});' >> server.js && \
     echo '' >> server.js && \
     echo '// Handle client-side routing - serve index.html for all routes' >> server.js && \
-    echo 'app.get("/*", (req, res) => {' >> server.js && \
+    echo 'app.use((req, res) => {' >> server.js && \
     echo '  res.sendFile(path.join(__dirname, "dist", "index.html"));' >> server.js && \
     echo '});' >> server.js && \
     echo '' >> server.js && \
