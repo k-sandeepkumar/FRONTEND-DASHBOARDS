@@ -35,7 +35,7 @@ RUN apk add --no-cache dumb-init
 COPY <<EOF /etc/nginx/nginx.conf
 worker_processes auto;
 error_log /var/log/nginx/error.log notice;
-pid /var/run/nginx.pid;
+pid /tmp/nginx.pid;
 
 events {
     worker_connections 1024;
@@ -124,10 +124,12 @@ RUN echo "Verifying copied files:" && \
 
 # Create nginx cache directory and set proper permissions
 RUN mkdir -p /var/cache/nginx && \
+    mkdir -p /tmp && \
     chown -R nginx:nginx /var/cache/nginx && \
     chown -R nginx:nginx /var/log/nginx && \
     chown -R nginx:nginx /etc/nginx/conf.d && \
-    chown -R nginx:nginx /usr/share/nginx/html
+    chown -R nginx:nginx /usr/share/nginx/html && \
+    chmod 755 /tmp
 
 # Set environment variables
 ENV NODE_ENV=production
