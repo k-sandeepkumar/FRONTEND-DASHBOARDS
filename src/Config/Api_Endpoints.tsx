@@ -1,8 +1,8 @@
 // API Configuration
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 
   (import.meta.env.PROD 
-    ? 'http://localhost:3000' 
-    : 'http://localhost:3000'); // Always use backend URL
+    ? 'https://oms-backend-camelq.up.railway.app' 
+    : 'https://oms-backend-camelq.up.railway.app'); // Always use backend URL
 
 // Helper function to get full API URL
 export const getApiUrl = (path) => {
