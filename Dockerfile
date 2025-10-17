@@ -31,6 +31,9 @@ FROM nginx:alpine AS production
 # Install dumb-init for proper signal handling
 RUN apk add --no-cache dumb-init
 
+# Remove default nginx configuration and create our custom one
+RUN rm -f /etc/nginx/nginx.conf
+
 # Create custom nginx.conf to avoid user directive conflicts
 COPY <<EOF /etc/nginx/nginx.conf
 worker_processes auto;
