@@ -94,7 +94,6 @@ jspm_packages/
 
 # Gatsby files
 .cache/
-public
 
 # Storybook build outputs
 .out
@@ -106,8 +105,3 @@ temp/
 
 # Railway specific
 .railway/
-
-# Docker
-Dockerfile*
-docker-compose*
-.dockerignore
