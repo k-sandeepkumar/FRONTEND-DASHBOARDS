@@ -31,6 +31,34 @@ FROM nginx:alpine AS production
 # Install dumb-init for proper signal handling
 RUN apk add --no-cache dumb-init
 
+# Create custom nginx.conf to avoid user directive conflicts
+COPY <<EOF /etc/nginx/nginx.conf
+worker_processes auto;
+error_log /var/log/nginx/error.log notice;
+pid /var/run/nginx.pid;
+
+events {
+    worker_connections 1024;
+}
+
+http {
+    include /etc/nginx/mime.types;
+    default_type application/octet-stream;
+    
+    log_format main '\$remote_addr - \$remote_user [\$time_local] "\$request" '
+                    '\$status \$body_bytes_sent "\$http_referer" '
+                    '"\$http_user_agent" "\$http_x_forwarded_for"';
+    
+    access_log /var/log/nginx/access.log main;
+    
+    sendfile on;
+    tcp_nopush on;
+    keepalive_timeout 65;
+    
+    include /etc/nginx/conf.d/*.conf;
+}
+EOF
+
 # Copy custom nginx configuration
 COPY <<EOF /etc/nginx/conf.d/default.conf
 server {
@@ -43,7 +71,7 @@ server {
     gzip on;
     gzip_vary on;
     gzip_min_length 1024;
-    gzip_proxied expired no-cache no-store private must-revalidate auth;
+    gzip_proxied expired no-cache no-store private auth;
     gzip_types
         text/plain
         text/css
